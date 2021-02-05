@@ -34,16 +34,16 @@ function flatten(obj) {
     if (Array.isArray(obj)) {
         return obj.map(flatten);
     }
-    else if (obj.flatData) {
+    else if (typeof obj === 'object' && obj !== null && obj.hasOwnProperty('flatData')) {
         return flatten(obj.flatData);
     }
     else if (Object.keys(obj).length > 0) {
         for (let k of Object.keys(obj)) {
-            if (obj[k].hasOwnProperty("flatData")) {
-              obj[k] = flatten(obj[k])
-            }
-            else if (Array.isArray(obj[k])) {
+            if (Array.isArray(obj[k])) {
                obj[k] = flatten(obj[k]);
+            }
+            else if (typeof obj[k] === 'object' && obj[k] !== null && obj[k].hasOwnProperty("flatData")) {
+              obj[k] = flatten(obj[k])
             }
         }
     }
